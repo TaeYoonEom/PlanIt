@@ -1,38 +1,49 @@
-.App {
-  text-align: center;
+/* App.css */
+
+/* 달력 내 이벤트 제목 줄바꿈 허용 */
+.fc-event-title {
+  white-space: normal !important; /* 한 줄 고정 해제 */
+  word-break: break-all !important; /* 긴 단어 자르기 */
+  overflow: visible !important;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* FullCalendar 기본 이벤트 박스 디자인 초기화 */
+.fc-daygrid-event {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 1px 2px !important; /* 일정 사이의 간격 */
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* 일정에 마우스를 올렸을 때 효과 */
+.fc-event:hover {
+  filter: brightness(90%);
+  cursor: pointer;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* 날짜 칸 안에 일정이 여러 개일 때 정렬 */
+.fc-daygrid-day-events {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 2px;
 }
 
-.App-link {
-  color: #61dafb;
+/* 시간과 제목이 겹치지 않게 블록 요소로 변경 */
+.fc-event-main {
+  display: block !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* 날짜별 칸 높이 최소치 설정 (내용이 많아질 때 대비) */
+.fc-daygrid-day-frame {
+  min-height: 100px !important;
+}
+
+/* 주말 색상 변경 (가독성 향상) */
+.fc-day-sun a { color: #ff4d4f !important; } /* 일요일 빨간색 */
+.fc-day-sat a { color: #4A90E2 !important; } /* 토요일 파란색 */
+
+/* 모달 애니메이션 (선택사항) */
+@keyframes modal-fadein {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

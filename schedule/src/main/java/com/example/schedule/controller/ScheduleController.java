@@ -1,9 +1,8 @@
 package com.example.schedule.controller;
 
 import com.example.schedule.domain.Schedule;
-import com.example.schedule.domain.User;
-import com.example.schedule.repository.ScheduleRepository;
-import com.example.schedule.repository.UserRepository;
+import com.example.schedule.dto.ScheduleResponse;
+import com.example.schedule.service.ScheduleService; // 서비스 임포트
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,26 +13,27 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ScheduleController {
 
-    private final ScheduleRepository scheduleRepository;
-    private final UserRepository userRepository;
+    // 정석: 이제 Repository 대신 Service를 주입받아 사용합니다.
+    private final ScheduleService scheduleService;
 
+    // 저장: 서비스의 saveSchedule 로직을 사용하도록 수정
     @PostMapping("/{userId}")
-    public Schedule create(
+    public void create(
             @PathVariable Long userId,
             @RequestBody Schedule schedule
     ) {
-        User user = userRepository.findById(userId).orElseThrow();
-        schedule.setUser(user);
-        return scheduleRepository.save(schedule);
+        scheduleService.saveSchedule(userId, schedule);
     }
 
+    // 조회: 중복을 제거하고 DTO(ScheduleResponse) 리스트를 반환합니다.
     @GetMapping("/user/{userId}")
-    public List<Schedule> findByUser(@PathVariable Long userId) {
-        List<Schedule> schedules = scheduleRepository.findByUserId(userId);
+    public List<ScheduleResponse> findByUser(@PathVariable Long userId) {
+        return scheduleService.getSchedules(userId);
+    }
 
-        // 순환 참조 방지를 위해 응답용 객체에서 user 정보를 비워줍니다.
-        schedules.forEach(s -> s.setUser(null));
-
-        return schedules;
+    // 삭제
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        scheduleService.deleteSchedule(id);
     }
 }
