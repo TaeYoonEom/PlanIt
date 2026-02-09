@@ -29,6 +29,11 @@ public class ScheduleController {
 
     @GetMapping("/user/{userId}")
     public List<Schedule> findByUser(@PathVariable Long userId) {
-        return scheduleRepository.findByUserId(userId);
+        List<Schedule> schedules = scheduleRepository.findByUserId(userId);
+
+        // 순환 참조 방지를 위해 응답용 객체에서 user 정보를 비워줍니다.
+        schedules.forEach(s -> s.setUser(null));
+
+        return schedules;
     }
 }

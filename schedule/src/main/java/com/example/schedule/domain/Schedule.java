@@ -26,6 +26,9 @@ public class Schedule {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
+    private boolean isCompleted; // 완료 여부
+    private String color;        // UI에 표시될 색상 (예: #4A90E2)
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;

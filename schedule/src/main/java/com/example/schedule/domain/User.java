@@ -21,6 +21,8 @@ public class User {
     private String name;
     private String email;
 
+    private String password;     // 로그인용 비밀번호
+
     @CreationTimestamp
     private LocalDateTime createdAt;
 }
