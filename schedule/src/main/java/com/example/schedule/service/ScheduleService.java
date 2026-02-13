@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,5 +41,17 @@ public class ScheduleService {
     @Transactional
     public void deleteSchedule(Long id) {
         scheduleRepository.deleteById(id);
+    }
+
+    @Transactional
+    public void updateScheduleTime(Long id, String newStartTime) {
+        Schedule schedule = scheduleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 일정이 없습니다."));
+
+        // 💡 String으로 들어온 날짜를 LocalDateTime으로 변환
+        LocalDateTime parsedTime = LocalDateTime.parse(newStartTime);
+
+        schedule.setStartTime(parsedTime);
+        schedule.setEndTime(parsedTime); // 필요하다면 함께 수정
     }
 }

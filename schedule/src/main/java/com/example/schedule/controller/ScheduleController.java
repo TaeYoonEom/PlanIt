@@ -31,6 +31,11 @@ public class ScheduleController {
         return scheduleService.getSchedules(userId);
     }
 
+    @PutMapping("/{id}/time")
+    public void updateScheduleTime(@PathVariable Long id, @RequestParam String startTime) {
+        scheduleService.updateScheduleTime(id, startTime);
+    }
+
     // 삭제
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
